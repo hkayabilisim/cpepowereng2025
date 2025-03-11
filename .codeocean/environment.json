@@ -1,0 +1,17 @@
+{
+	"version": 1,
+	"base_image": "registry.codeocean.com/codeocean/miniconda3:4.12.0-python3.9-ubuntu20.04",
+	"options": {},
+	"installers": {
+		"pip3": {
+			"packages": [
+				{
+					"name": "ray[rllib]",
+					"version": "2.43.0"
+				}
+			],
+			"options": {},
+			"pre_install_options": {}
+		}
+	}
+}
