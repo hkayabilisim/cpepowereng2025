@@ -29,7 +29,7 @@ class OpenDSS(gym.Env):
     def load_case(self):
         dss.Text.Command('Clear')
         try:
-            scenario_path = "/data/IEEE123Master_Loads.dss"
+            scenario_path = "../data/IEEE123Master_Loads.dss"
             dss.Text.Command(f'Redirect {scenario_path}')
             dss.Text.Command(f'set mode=daily number=1 stepsize=1h')
             dss.Text.Command('set number = 1')
@@ -38,7 +38,7 @@ class OpenDSS(gym.Env):
             dss.Text.Command('set maxiter = 10000')
             self._set_max_tap_change(np.zeros(dss.RegControls.Count()))
         except:
-            print("Invalid test case!")
+            raise Exception("Invalid test case!")
 
     def _set_max_tap_change(self, tap_num):
         dss.RegControls.First()
@@ -134,11 +134,11 @@ class OpenDSS(gym.Env):
         self.observation_space = Box(low=np.array([self.MIN_REG_TAP_VALUE,self.MIN_REG_TAP_VALUE, self.MIN_REG_TAP_VALUE,
                                                    self.MIN_REG_TAP_VALUE, self.MIN_REG_TAP_VALUE, self.MIN_REG_TAP_VALUE,
                                                    self.MIN_REG_TAP_VALUE, self.MIN_X1_VALUE, self.MIN_X1_VALUE, self.MIN_X1_VALUE,
-                                                   self.MIN_X2_VALUE, self.MIN_X2_VALUE, self.MIN_X2_VALUE, self.CHOOSEN_HOUR]),
+                                                   self.MIN_X2_VALUE, self.MIN_X2_VALUE, self.MIN_X2_VALUE, self.CHOOSEN_HOUR], dtype=np.float32),
                                      high=np.array([self.MAX_REG_TAP_VALUE, self.MAX_REG_TAP_VALUE, self.MAX_REG_TAP_VALUE,
                                                    self.MAX_REG_TAP_VALUE, self.MAX_REG_TAP_VALUE, self.MAX_REG_TAP_VALUE,
                                                    self.MAX_REG_TAP_VALUE, self.MAX_X1_VALUE, self.MAX_X1_VALUE, self.MAX_X1_VALUE,
-                                                   self.MAX_X2_VALUE, self.MAX_X2_VALUE, self.MAX_X2_VALUE, self.CHOOSEN_HOUR]), dtype=np.float32)
+                                                   self.MAX_X2_VALUE, self.MAX_X2_VALUE, self.MAX_X2_VALUE, self.CHOOSEN_HOUR], dtype=np.float32), dtype=np.float32)
         
         
         self.case = case

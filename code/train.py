@@ -11,44 +11,21 @@ import pandas as pd
 
 
 if __name__ == '__main__':
-    num_iterations = 2
+    num_iterations = 1000
     evaluating_interval = 2
     evaluation_duration = 4
     save_interval = 100
     
-    ray.init(include_dashboard=False)
+    ray.init()
     
     register_env('opendss', lambda config: OpenDSS())
     
-    test = OpenDSS()
-    # config_sac = (sac.SACConfig()
-    #             .environment(env="opendss")   
-    #             .rollouts(num_rollout_workers=8, enable_connectors=False, num_envs_per_worker=1)
-    #             .resources(num_gpus=number_of_gpus, num_cpus_per_worker=1)
-    #             .training(train_batch_size=256,
-    #                       model={"fcnet_hiddens": [32,32]},
-    #                       lr=0.00001) 
-    #     # .callbacks(MetricCallbacks)
-    # )
-    
-    # config_dqn = (dqn.DQNConfig()
-    #             .environment(env="opendss")        
-    #             .rollouts(num_rollout_workers=8, enable_connectors=False, num_envs_per_worker=1)
-    #             .resources(num_gpus=number_of_gpus, num_cpus_per_worker=1)
-    #             .training(train_batch_size=256,
-    #                       model={"fcnet_hiddens": [32,32]}) 
-    #     # .callbacks(MetricCallbacks)
-    # )
-    
     config_ppo = (ppo.PPOConfig()
                 .environment(env="opendss")
-                .env_runners(num_env_runners=4, num_cpus_per_env_runner=1)
-                .training(train_batch_size=256,
-                          model={"fcnet_hiddens": [32,32]},
-                          lr=0.00001)
-                .evaluation(evaluation_interval=evaluating_interval, evaluation_duration = evaluation_duration)
-        # .callbacks(MetricCallbacks)
-        )
+                .rollouts(num_rollout_workers=0, num_envs_per_worker=1)
+                .resources(num_gpus=0, num_cpus_per_worker=1)
+                .training(train_batch_size=256 ,sgd_minibatch_size=16, model={"fcnet_hiddens": [32,32]}, lr=0.00001)
+                .evaluation(evaluation_interval=evaluating_interval, evaluation_duration = evaluation_duration))
     
     algo = config_ppo.build()
     logdir = algo.logdir

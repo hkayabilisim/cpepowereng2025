@@ -2,5 +2,10 @@
   "name": "OpenDSS-OPT",
   "build": {
     "dockerfile": "../environment/Dockerfile"
+  },
+  "runArgs": ["--shm-size=2gb"],
+  "postCreateCommand": "ln -s ${containerWorkspaceFolder}/data /data",
+  "containerEnv": {
+      "PYTHONWARNINGS": "ignore::DeprecationWarning"
   }
 }
