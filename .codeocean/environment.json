@@ -25,5 +25,11 @@
 			"options": {},
 			"pre_install_options": {}
 		}
-	}
+	},
+	"env_variables": [
+		{
+			"name": "PYTHONWARNINGS",
+			"value": "ignore::DeprecationWarning"
+		}
+	]
 }
