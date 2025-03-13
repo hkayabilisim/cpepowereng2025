@@ -1,0 +1,54 @@
+// INVERTER 
+//New XYCurve.VoltVar_curve npts=7
+//~ Yarray= [1 1 0 0 0 -1 -1]
+//~ XArray= [0.4 0.95 1 1 1 1.05 1.6]
+
+//New InvControl.InvPVCtrl
+//~ mode = VOLTVAR
+//~ vvc_curve1=VoltVar_curve
+//~ voltage_curvex_ref=rated
+//~ deltaQ_factor=0.7  //default is 0.7 ----0.3
+//~ VarChangeTolerance=0.05  //default is 0.025
+//~ VoltageChangeTolerance=0.001  //default is 0.0001
+
+//~ EventLog=yes
+
+// INVERTER 1
+New XYCurve.VoltVar_curve_1 npts=7 Yarray= [1 1 0 0 0 -1 -1] XArray= [0.5 0.95 1 1 1 1.05 1.5]
+
+New InvControl.InvPVCtrl_1
+~ mode = VOLTVAR
+~ vvc_curve1=VoltVar_curve_1
+~ voltage_curvex_ref=rated
+~ deltaQ_factor=0.01  //default is 0.7 ----0.3
+~ VarChangeTolerance=0.025  //default is 0.025
+~ VoltageChangeTolerance=0.0001  //default is 0.0001
+~ DERList = [PVSystem.PV_33_1 PVSystem.PV_30_1 PVSystem.PV_48_1 PVSystem.PV_20_1 PVSystem.PV_11_1 PVSystem.PV_10_1 PVSystem.PV_1_1 PVSystem.PV_88_1 PVSystem.PV_79_1 PVSystem.PV_71_1 PVSystem.PV_114_1 PVSystem.PV_46_1 PVSystem.PV_37_1]
+
+
+
+// INVERTER 2
+New XYCurve.VoltVar_curve_2 npts=7 Yarray= [1 1 0 0 0 -1 -1] XArray= [0.5 0.95 1 1 1 1.05 1.5]
+
+New InvControl.InvPVCtrl_2
+~ mode = VOLTVAR
+~ vvc_curve1=VoltVar_curve_2
+~ voltage_curvex_ref=rated
+~ deltaQ_factor=0.01  //default is 0.7 ----0.3
+~ VarChangeTolerance=0.025  //default is 0.025
+~ VoltageChangeTolerance=0.0001  //default is 0.0001
+~ DERList = [PVSystem.PV_48_2 PVSystem.PV_22_2 PVSystem.PV_90_2 PVSystem.PV_83_2 PVSystem.PV_107_2 PVSystem.PV_43_2 PVSystem.PV_39_2 PVSystem.PV_59_2]
+
+
+
+// INVERTER 3
+New XYCurve.VoltVar_curve_3 npts=7 Yarray= [1 1 0 0 0 -1 -1] XArray= [0.5 0.95 1 1 1 1.05 1.5]
+
+New InvControl.InvPVCtrl_3
+~ mode = VOLTVAR
+~ vvc_curve1=VoltVar_curve_3
+~ voltage_curvex_ref=rated
+~ deltaQ_factor=0.01  //default is 0.7 ----0.3
+~ VarChangeTolerance=0.025  //default is 0.025
+~ VoltageChangeTolerance=0.0001  //default is 0.0001
+~ DERList = [PVSystem.PV_32_3 PVSystem.PV_48_3 PVSystem.PV_24_3 PVSystem.PV_4_3 PVSystem.PV_6_3 PVSystem.PV_16_3 PVSystem.PV_17_3 PVSystem.PV_92_3 PVSystem.PV_85_3 PVSystem.PV_75_3 PVSystem.PV_104_3 PVSystem.PV_41_3 PVSystem.PV_66_3]

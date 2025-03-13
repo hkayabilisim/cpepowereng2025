@@ -1,0 +1,6 @@
+{
+  "name": "OpenDSS-OPT",
+  "build": {
+    "dockerfile": "../environment/Dockerfile"
+  }
+}

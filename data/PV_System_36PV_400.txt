@@ -1,0 +1,149 @@
+//P-T curve is per unit of rated Pmpp vs temperature
+//This one is for a Pmpp stated at 25 deg
+New XYCurve.MyPvsT npts=4  xarray=[0  25  75  100]  yarray=[1.2 1.0 0.8  0.6] 
+
+// efficiency curve is per unit eff vs per unit power
+New XYCurve.MyEff npts=4  xarray=[.1  .2  .4  1.0]  yarray=[.86  .9  .93  .97]  
+
+// per unit irradiance curve (per unit if "irradiance" property)
+New Loadshape.MyIrrad npts=24 interval=1 mult=[0 0 0 0 0 0 .1 .2 .3  .5  .8  .9  1.0  1.0  .99  .9  .7  .4  .1 0  0  0  0  0]
+
+// 24-hr temp shape curve
+New Tshape.MyTemp npts=24 interval=1 temp=[25 25 25 25 25 25 25 25 35 40 45 50 60 60 55 40 35 30 25 25 25 25 25 25]
+
+// Comments under every PV notes there are that phases available on that Bus. Phase a,b,c means that that bus has all 3 phases
+
+New PVSystem.PV_33_1 phases=1 bus1=33.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_32_3 phases=1 bus1=32.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_30_1 phases=1 bus1=30.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true
+// Phase a,b,c
+
+New PVSystem.PV_48_1 phases=1 bus1=48.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+
+New PVSystem.PV_48_2 phases=1 bus1=48.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+
+New PVSystem.PV_48_3 phases=1 bus1=48.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a,b,c
+
+New PVSystem.PV_24_3 phases=1 bus1=24.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_22_2 phases=1 bus1=22.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase b
+
+New PVSystem.PV_20_1 phases=1 bus1=20.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_11_1 phases=1 bus1=11.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_10_1 phases=1 bus1=10.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_1_1 phases=1 bus1=1.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a,b,c
+
+New PVSystem.PV_4_3 phases=1 bus1=4.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_6_3 phases=1 bus1=6.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_16_3 phases=1 bus1=16.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_17_3 phases=1 bus1=17.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_92_3 phases=1 bus1=92.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true
+// Phase c
+
+New PVSystem.PV_90_2 phases=1 bus1=90.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase b
+
+New PVSystem.PV_88_1 phases=1 bus1=88.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_83_2 phases=1 bus1=83.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a,b,c
+
+New PVSystem.PV_85_3 phases=1 bus1=85.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_79_1 phases=1 bus1=79.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a,b,c
+
+New PVSystem.PV_75_3 phases=1 bus1=75.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_71_1 phases=1 bus1=71.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_104_3 phases=1 bus1=104.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_107_2 phases=1 bus1=107.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase b
+
+New PVSystem.PV_114_1 phases=1 bus1=114.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_46_1 phases=1 bus1=46.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_43_2 phases=1 bus1=43.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase b
+
+New PVSystem.PV_41_3 phases=1 bus1=41.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase c
+
+New PVSystem.PV_37_1 phases=1 bus1=37.1 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a
+
+New PVSystem.PV_39_2 phases=1 bus1=39.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase b
+
+New PVSystem.PV_59_2 phases=1 bus1=59.2 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase b
+
+New PVSystem.PV_66_3 phases=1 bus1=66.3 kV=2.4 kVA=100 irrad=.98  Pmpp=80 temperature=25 PF=1 
+~ %cutin=0.1 %cutout=0.1  effcurve=Myeff  P-TCurve=MyPvsT Daily=MyIrrad  TDaily=MyTemp varfollowinverter=true 
+// Phase a,b,c
+
