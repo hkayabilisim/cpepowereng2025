@@ -4,7 +4,7 @@ This capsule contains codes, data and computing instructions to reproduce the re
 Everything needed is already contained in this capsule. Depending on your goal and your time constraints, we provide two alternatives to run the capsule and obtain the results: via Open Science Library or Capsule Export.
 
 ## Open Science Library
-If you visit this capsule via [Open Science Library](https://codeocean.com/explore), then you should be able to see the published results in the library. Code Ocean has an internal publishing process to verify that on each run the capsule will produce the same results. So, if you are in a hurry, or don't bother running the capsule again, then you can take a look at the published results and check the codes and data in the capsule.
+If you visit this capsule via [Open Science Library](https://codeocean.com/explore) developed by [Code Ocean](https://codeocean.com), then you should be able to see the published results in the library. Code Ocean has an internal publishing process to verify that on each run the capsule will produce the same results. So, if you are in a hurry, or don't bother running the capsule again, then you can take a look at the published results and check the codes and data in the capsule.
 
 If you want to run the capsule and produce results by yourself, then all you have to do is to click "Reproducible Run" button in the capsule page. The [Open Science Library](https://codeocean.com/explore) will run the capsule from the scratch and produce the results.
 
@@ -55,3 +55,17 @@ $ cd code
 $ python train.py
 ~~~
 This approach also fits to the way how CodeOcean runs the capsule.
+
+## results folder
+When you visit [Open Science Library](https://codeocean.com/explore), you will see that published results are always populated under **results** folder. This is a special folder CodeOcean uses to store the outputs likes PDFs, PNGs, or ordinary text outputs. Therefore, in CodeOcean capsules **results** folder is not included in *git* structure. So, when you pull or export a CodeOcean capsule, you won't see this folder. Whenever you create an output, you should create **results** folder and put the outputs under it. For the same reason, you should not include it to git. 
+
+# Results
+The mapping between capsule results and the content in the manuscript is as follows:
+
+    Simulation      CodeOcean         Manuscript
+    ------------    ----------------  ----------
+    Simulation A    SimulationA.pdf   Figure 3
+    Simulation B    SimulationB.pdf   Figure 4
+
+For the explanation of the simulations, please check the related code.
+

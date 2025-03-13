@@ -2,4 +2,10 @@
 set -ex
 
 # This is the master script for the capsule. When you click "Reproducible Run", the code in this file will execute.
-python -u train.py "$@"
+echo "Running Simulation A"
+python -u simulationA.py
+
+echo "Running Simulation B"
+python -u simulationB.py
+
+#python -u train.py "$@"

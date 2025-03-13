@@ -4,7 +4,7 @@
     "dockerfile": "../environment/Dockerfile"
   },
   "runArgs": ["--shm-size=2gb"],
-  "postCreateCommand": "ln -s ${containerWorkspaceFolder}/data /data",
+  "postCreateCommand": "mkdir -p ${containerWorkspaceFolder}/results",
   "containerEnv": {
       "PYTHONWARNINGS": "ignore::DeprecationWarning"
   }
