@@ -6,8 +6,20 @@
 		"pip3": {
 			"packages": [
 				{
+					"name": "matplotlib",
+					"version": "3.9.4"
+				},
+				{
+					"name": "opendssdirect-py",
+					"version": "0.9.4"
+				},
+				{
 					"name": "ray[rllib]",
-					"version": "2.43.0"
+					"version": "2.37.0"
+				},
+				{
+					"name": "torch",
+					"version": "2.6.0"
 				}
 			],
 			"options": {},
