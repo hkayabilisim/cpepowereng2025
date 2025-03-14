@@ -41,7 +41,7 @@ DIRECTORY_CODE = os.path.dirname(os.path.abspath(__file__))
 DIRECTORY_CPEPOWERENG2025 = os.path.abspath(os.path.join(DIRECTORY_CODE, ".."))
 DIRECTORY_DSS = os.path.join(DIRECTORY_CODE, "..", "data", "IEEE123Master_Loads.dss")
 DIRECTORY_RESULTDIR = os.path.join(DIRECTORY_CPEPOWERENG2025, 'result')
-DIRECTORY_RESULT = os.path.join(DIRECTORY_RESULTDIR, '34PV_Taps5_Hour12_NoInvControl.pdf')
+DIRECTORY_RESULT = os.path.join(DIRECTORY_RESULTDIR, 'simulationB.pdf')
 
 os.makedirs(DIRECTORY_RESULTDIR, exist_ok=True)
 
@@ -71,12 +71,17 @@ dss.Text.Command('batchedit InvControl..* enabled=false')
 
 dss.Solution.Solve()
 
-plt.plot(dss.Circuit.AllNodeVmagPUByPhase(1), label='Phase A', marker='o')
-plt.plot(dss.Circuit.AllNodeVmagPUByPhase(2), label='Phase B', marker='o')
-plt.plot(dss.Circuit.AllNodeVmagPUByPhase(3), label='Phase C', marker='o')
+plt.figure(figsize=(12, 6))
+plt.plot(dss.Circuit.AllNodeVmagPUByPhase(1), label='Phase A', marker='o', markersize=3, linewidth=2)
+plt.plot(dss.Circuit.AllNodeVmagPUByPhase(2), label='Phase B', marker='o', markersize=3, linewidth=2)
+plt.plot(dss.Circuit.AllNodeVmagPUByPhase(3), label='Phase C', marker='o', markersize=3, linewidth=2)
 
-plt.ylabel('Voltage magnitude (p.u.)')
-plt.xlabel('Node Number')
+plt.ylabel('Voltage magnitude (p.u.)', fontsize=14)
+plt.xlabel('Node Number', fontsize=14)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14) 
+
+
 plt.legend()
 plt.grid()
 
