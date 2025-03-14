@@ -39,7 +39,7 @@ import matplotlib.pyplot as plt
 DIRECTORY_CODE = os.path.dirname(os.path.abspath(__file__))
 DIRECTORY_CPEPOWERENG2025 = os.path.abspath(os.path.join(DIRECTORY_CODE, ".."))
 DIRECTORY_DSS = os.path.join(DIRECTORY_CODE, "..", "data", "IEEE123Master_Loads.dss")
-DIRECTORY_RESULTDIR = os.path.join(DIRECTORY_CPEPOWERENG2025, 'result')
+DIRECTORY_RESULTDIR = os.path.join(DIRECTORY_CPEPOWERENG2025, 'results')
 DIRECTORY_RESULT = os.path.join(DIRECTORY_RESULTDIR, 'simulationA.pdf')
 
 os.makedirs(DIRECTORY_RESULTDIR, exist_ok=True)
