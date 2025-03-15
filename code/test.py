@@ -34,7 +34,7 @@ register_env('opendss', lambda config: OpenDSS(chosen_hour=testing_hour))
 policy_name = f"../data/checkpoints/hour_{training_hour}"
 algo = Algorithm.from_checkpoint(policy_name)
 
-env = OpenDSS()
+env = OpenDSS(chosen_hour=testing_hour)
 
 obs, info = env.reset()
 done = False
