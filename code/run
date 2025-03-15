@@ -8,4 +8,32 @@ python -u simulationA.py
 echo "Running Simulation B"
 python -u simulationB.py
 
-#python -u train.py "$@"
+# -------------------
+# Note about training
+# -------------------
+# Training scripts are disabled because they 
+# take several hours to complete. 
+# Instead, we conducted training on local resources
+# and copy the generated policies to data/checkpoints folder.
+# If you would like to train yourself, uncomment the following lines
+# and make sure to change the policy folder in code/test.py
+# 
+#echo "Training for hour 9"
+#python -u train.py --hour 9
+
+#echo "Training for hour 12"
+#python -u train.py --hour 12
+
+#echo "Training for hour 16"
+#python -u train.py --hour 16
+
+
+# Testing the trained policies
+for training in 9 12 16
+do
+    for testing in 9 12 16
+    do
+        echo "Training $training tested on $testing"
+        python -u test.py --training_hour $training --testing_hour $testing
+    done
+done
