@@ -24,7 +24,6 @@ class OpenDSS(gym.Env):
     MAX_X2_VALUE = 1.07
     NUM_ELEMENT_X1 = int(round(MAX_X1_VALUE-MIN_X1_VALUE,2)*100+1)
     NUM_ELEMENT_X2 = int(round(MAX_X2_VALUE-MIN_X2_VALUE,2)*100+1)
-    CHOOSEN_HOUR = 12 #0.5-0.7 PV Irradiance
 
     def load_case(self):
         dss.Text.Command('Clear')
@@ -103,26 +102,17 @@ class OpenDSS(gym.Env):
     def read_Regulators(self):
         dss.RegControls.First()
         for _ in range(dss.RegControls.Count()):
-            print(f'Name : {dss.RegControls.Name()} Tap : {dss.RegControls.TapNumber()} MaxChange: {dss.RegControls.MaxTapChange()}')
+            #print(f'Name : {dss.RegControls.Name()} Tap : {dss.RegControls.TapNumber()} MaxChange: {dss.RegControls.MaxTapChange()}')
             dss.RegControls.Next()
     
     def read_XYCurves(self):
         dss.XYCurves.First()
         for _  in range(dss.XYCurves.Count()):
-            print(f'Name : {dss.XYCurves.Name()} Value : {dss.XYCurves.XArray()}')
+            #print(f'Name : {dss.XYCurves.Name()} Value : {dss.XYCurves.XArray()}')
             dss.XYCurves.Next()
     
-    def flatten(self,arr):
-        result = []
-        for i in arr:
-            if isinstance(i, list):
-                result.extend(self.flatten(i))
-            else:
-                result.append(i)
-        return result
-
-    def __init__(self, case="IEEE123PV"):
-        
+    def __init__(self, case="IEEE123PV", chosen_hour = 12 ):
+        self.CHOOSEN_HOUR = chosen_hour
         self.action_space = MultiDiscrete([(self.NUM_ELEMENT_REG_TAP), (self.NUM_ELEMENT_REG_TAP),
                                             (self.NUM_ELEMENT_REG_TAP), (self.NUM_ELEMENT_REG_TAP),
                                             (self.NUM_ELEMENT_REG_TAP),(self.NUM_ELEMENT_REG_TAP), 
@@ -144,16 +134,16 @@ class OpenDSS(gym.Env):
         self.case = case
         self.load_case()
         self.xy_curve_names = [eleman for eleman in dss.XYCurves.AllNames() if 'voltvar_curve' in eleman]
-        self.default_load_shape = [0.934, 0.87, 0.826, 0.805, 0.8, 0.805, 0.85, 
-                                   0.931, 1.115, 1.232, 1.253, 1.262, 1.207, 1.219, 
-                                   1.221, 1.211, 1.218, 1.219, 1.198, 1.204, 1.169, 1.122, 1.076, 1.019]
+        #self.default_load_shape = [0.934, 0.87, 0.826, 0.805, 0.8, 0.805, 0.85, 
+        #                           0.931, 1.115, 1.232, 1.253, 1.262, 1.207, 1.219, 
+        #                           1.221, 1.211, 1.218, 1.219, 1.198, 1.204, 1.169, 1.122, 1.076, 1.019]
+        self.default_load_shape = [1, 1, 1, 1, 1, 1, 1, 1, 1, 0.853, 1, 1, 1, 1, 1, 1, 0.949, 1, 1, 1, 1, 1, 1, 1]
 
     def reset(self, *, seed=None, options=None):
 
         tap_values = list(np.random.randint(self.MIN_REG_TAP_VALUE,self.MAX_REG_TAP_VALUE+1,self.NUM_REG))
         self.set_tap_values(tap_values)
 
-        pv_array = []
         pv_array_x1 = []
         pv_array_x2 = []
         for xy_curve_name in self.xy_curve_names:
@@ -162,7 +152,6 @@ class OpenDSS(gym.Env):
             pv_array_x1.extend([x1])
             pv_array_x2.extend([x2])
             self.set_pv_values(xy_curve_name, x1, x2)
-        pv_array.extend([pv_array_x1,pv_array_x2])
         
         dss.LoadShape.Name('loadshape_1')
         dss.LoadShape.PMult(self.default_load_shape)
@@ -173,7 +162,7 @@ class OpenDSS(gym.Env):
         self.reward = -self.calculate_distance_standard(p1,p2,p3) - error
 
         self.info = {}
-        self.state = self.flatten(tap_values+pv_array+[self.CHOOSEN_HOUR])
+        self.state = np.array(tap_values+pv_array_x1+pv_array_x2+[self.CHOOSEN_HOUR], dtype=np.float32)
     
 
         self.truncated = False
@@ -197,14 +186,16 @@ class OpenDSS(gym.Env):
 
 
     def step(self, action):
+        #print('entering step',self.count,action, self.state)
         try:
             assert self.action_space.contains(action)
         except AssertionError:
-            print(f"Invalid action: {action}")
+            raise Exception(f"Invalid action: {action}")
         self.count += 1
-        temp_state = self.flatten(self.state.copy())
-        
-        temp_state[:self.NUM_REG] = np.array(action[:self.NUM_REG])-self.MAX_REG_TAP_VALUE
+        temp_state = self.state.copy()
+
+        temp_state[:self.NUM_REG] = action[:self.NUM_REG]-self.MAX_REG_TAP_VALUE
+
         for i in range(self.NUM_REG, self.NUM_INVERTER+self.NUM_REG):
             
             temp_state[i] = round(action[i]/100+self.MIN_X1_VALUE,2)
@@ -215,23 +206,36 @@ class OpenDSS(gym.Env):
             
         temp_state[-1] = self.CHOOSEN_HOUR
 
-        self.state = temp_state.copy()
+        if self.observation_space.contains(temp_state):
+            self.state = temp_state.copy()
 
-        next_tap_values = temp_state[:self.NUM_REG]
-        self.set_tap_values(next_tap_values)
+            next_tap_values = temp_state[:self.NUM_REG]
+            self.set_tap_values(next_tap_values)
 
-        for i in range(self.NUM_INVERTER):
-            self.set_pv_values(self.xy_curve_names[i], temp_state[self.NUM_REG+i], temp_state[self.NUM_REG+i+self.NUM_INVERTER])
+            for i in range(self.NUM_INVERTER):
+                self.set_pv_values(self.xy_curve_names[i], temp_state[self.NUM_REG+i], temp_state[self.NUM_REG+i+self.NUM_INVERTER])
 
-        try:
-            self.solve_case(self.CHOOSEN_HOUR)
-        except:
-            print("Error",temp_state)
+            try:
+                self.solve_case(self.CHOOSEN_HOUR)
+            except:
+                raise Exception("Error in solving case",temp_state)
 
-        p1, p2, p3 = self.get_phase_values()
-        
-        error = self.calculate_error(p1,p2,p3)
-        self.reward = -self.calculate_distance_standard(p1,p2,p3) - error
+            p1, p2, p3 = self.get_phase_values()
+            
+            # if min(p1)<0.95 or max(p1)>1.05 or min(p2)<0.95 or max(p2)>1.05 or min(p3)<0.95 or max(p3)>1.05:
+            #     self.reward = -5
+            #     error = self.calculate_error(p1,p2,p3)
+            # else:
+            
+            error = self.calculate_error(p1,p2,p3)
+            self.reward = -self.calculate_distance_standard(p1,p2,p3) - error
+        else:
+            self.reward = -20
+            self.state[-1] = self.CHOOSEN_HOUR
+            error = 10
+            p1 = 10
+            p2 = 10
+            p3 = 10
 
         
         self.info["error"] = error
@@ -244,6 +248,9 @@ class OpenDSS(gym.Env):
         self.info["p3_max"] = np.max(p3)
         self.info["p3_min"] = np.min(p3)
         self.info["p3_mean"] = np.mean(p3)
+        self.info["p1"] = p1
+        self.info["p2"] = p2
+        self.info["p3"] = p3
 
         if self.count == self.MAX_STEPS:
             self.truncated = True
